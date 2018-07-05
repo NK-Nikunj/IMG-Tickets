@@ -40,6 +40,10 @@ INSTALLED_APPS = [
 
     # local apps
     'tickets',
+    'user_authentication',
+
+    # third party
+    'semanticuiforms',
 ]
 
 MIDDLEWARE = [
@@ -120,12 +124,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/frontend/static/'
 MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
+    os.path.join(BASE_DIR, "frontend/static")
 ]
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static_cdn")
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), "media_cdn")
+
+# Email backend to use while activating account
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
