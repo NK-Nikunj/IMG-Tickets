@@ -1,5 +1,5 @@
 from django.db import models
-# from django.url import reverse
+from django.urls import reverse
 
 from django.conf import settings
 
@@ -133,6 +133,11 @@ class Ticket(models.Model):
     # Class string as the issue name of ticket
     def __str__(self):
         return self.issue
+
+
+    # function for reversing
+    def get_absolute_url(self):
+        return reverse("tickets:ticket_detail", kwargs={"id": self.id})
 
 
 
