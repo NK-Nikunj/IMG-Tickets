@@ -10,8 +10,12 @@
 <p>{{ instance.content }}</p>
 <p>{{ instance.timestamp }}</p>
 <p>{{ instance.ticket_state }}</p>
-<p>{{ instance.completion_state }}</p>
-<p>{{ instance.open_state }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ update_ticket.as_p }}
+    <input type="submit" value="update">
+</form>
 
 
 <h3>Comments</h3>
