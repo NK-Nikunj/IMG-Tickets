@@ -14,6 +14,9 @@ from .forms import TicketForm, CommentForm
 # View for public tickets
 @login_required(login_url='/')
 def public_tickets(request):
+    if request.user.is_staff:
+        return redirect('admin/')
+
     page_title = "Public Tickets"
 
     pub_tickets_list = Ticket.objects.filter(ticket_state='Public')
@@ -35,7 +38,10 @@ def public_tickets(request):
 def user_tickets(request):
     page_title = "Public Tickets"
 
-    pri_tickets_list = Ticket.objects.filter(ticket_state='Private', user=request.user)
+    pri_tickets_list = Ticket.objects.filter(
+        ticket_state='Private',
+        user=request.user
+    )
     paginator = Paginator(pri_tickets_list, 10)
 
     page = request.GET.get('page')
@@ -72,12 +78,30 @@ def create_ticket(request):
 # View for ticket details
 @login_required(login_url='/')
 def ticket_detail(request, id=None):
+    if request.user.is_staff:
+        url = "admin/" + str(id)
+        return redirect(url)
+
     instance = get_object_or_404(Ticket, id=id)
+
+    form = CommentForm(request.POST or None)
+
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.comment_on = instance
+        comment.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    comments = Comment.objects.filter(comment_on=id)
 
     context = {
         "title": "Detail",
-        "instance": instance
+        "instance": instance,
+        "form": form,
+        "comments": comments,
     }
+
     return render(request, "tickets/detail.html", context)
 
 
@@ -123,12 +147,28 @@ def delete_ticket(request, id=None):
 
 
 
+# View for admin. Admin can see everyone's public and private tickets
 @login_required(login_url='/')
 def user_admin_ticket(request):
-    pass
+    if not request.user.is_staff:
+        raise Http404
+
+    page_title = "All Tickets"
+
+    all_tickets_list = Ticket.objects.all()
+    paginator = Paginator(all_tickets_list, 10)
+
+    page = request.GET.get('page')
+    all_tickets = paginator.get_page(page)
+
+    context = {
+        'title': page_title,
+        'ticket_list': all_tickets,
+    }
+    return render(request, "tickets/tickets.html", context)
 
 
 
 @login_required(login_url='/')
-def ticket_admin_detail(request):
+def ticket_admin_detail(request, id=None):
     pass

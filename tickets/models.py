@@ -62,6 +62,11 @@ class Ticket(models.Model):
         ('Not Possible', 'Not Possible'),
     )
 
+    OPEN_STATE = (
+        ('Open', 'Open'),
+        ('Closed', 'Closed'),
+    )
+
     # Model fields starts here
 
     # Reference to User on Ticket creation
@@ -119,6 +124,12 @@ class Ticket(models.Model):
         max_length=30,
         choices=COMPLETION_STATE,
         default='Received'
+    )
+
+    open_state = models.CharField(
+        max_length=20,
+        choices=OPEN_STATE,
+        default='Open'
     )
 
 
@@ -190,3 +201,4 @@ class Comment(models.Model):
     # Class string as the comment iself
     def __str__(self):
         return self.comment
+

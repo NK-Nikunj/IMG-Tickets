@@ -9,4 +9,18 @@
 <p>{{ instance.user }}</p>
 <p>{{ instance.content }}</p>
 <p>{{ instance.timestamp }}</p>
+
+<h3>Comments</h3>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="comment" />
+</form>
+<br>
+{% for comment in comments %}
+<p>{{ comment.user }}</p>
+<p>{{ comment.comment }}</p>
+<p>{{ comment.timestamp }}</p>
+<br>
+{% endfor %}
 {% endblock %}

@@ -10,7 +10,9 @@
 {% if ticket.image %}
 <img src="{{ ticket.image.url }}" />
 {% endif %}
+<p>{{ ticket.id }}</p>
 <p>{{ ticket.user }}</p>
+<p>{{ ticket.ticket_state }}</p>
 <p>{{ ticket.tag }}</p>
 <p>{{ ticket.issue }}</p>
 <p>{{ ticket.content }}</p>
