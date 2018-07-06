@@ -20,6 +20,19 @@ class TicketForm(forms.ModelForm):
         ]
 
 
+# Update form for admin
+class UpdateTicketForm(forms.ModelForm):
+    """
+    Basic Design for the Ticket form
+    """
+    class Meta:
+        model = Ticket
+        fields = [
+            "completion_state",
+            "open_state",
+        ]
+
+
 
 # Form for Comment
 class CommentForm(forms.ModelForm):

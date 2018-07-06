@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 # import mdels and forms
 from .models import Ticket, Comment
-from .forms import TicketForm, CommentForm
+from .forms import TicketForm, CommentForm, UpdateTicketForm
 
 
 
@@ -171,4 +171,37 @@ def user_admin_ticket(request):
 
 @login_required(login_url='/')
 def ticket_admin_detail(request, id=None):
-    pass
+    if not request.user.is_staff:
+        raise Http404
+
+    instance = get_object_or_404(Ticket, id=id)
+    update_ticket_status = UpdateTicketForm(
+        request.POST or None,
+        instance=instance
+    )
+
+    if update_ticket_status.is_valid():
+        instance = update_ticket_status.save(commit=False)
+        instance.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    form = CommentForm(request.POST or None)
+
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.user = request.user
+        comment.comment_on = instance
+        comment.save()
+        return HttpResponseRedirect(instance.get_absolute_url())
+
+    comments = Comment.objects.filter(comment_on=id)
+
+    context = {
+        "title": "Detail",
+        "instance": instance,
+        "form": form,
+        "update_ticket": update_ticket_status,
+        "comments": comments,
+    }
+
+    return render(request, "tickets/detail_admin.html", context)
