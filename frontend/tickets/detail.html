@@ -1,0 +1,12 @@
+{% extends "tickets/base.html" %}
+
+{% block content %}
+{% if instance.image %}
+<img src="{{ instance.image.url }}" />
+{% endif %}
+<p>{{ instance.question }}</p>
+<p>{{ instance.updated }}</p>
+<p>{{ instance.user }}</p>
+<p>{{ instance.content }}</p>
+<p>{{ instance.timestamp }}</p>
+{% endblock %}
