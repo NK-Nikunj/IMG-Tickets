@@ -42,24 +42,24 @@ class Ticket(models.Model):
 
     # choice for tags
     TAGS = (
-        ('BUG', 'Bug Reports'),
-        ('ACC_ISSUE', 'Account Issue'),
-        ('F_REQ', 'Feature Request'),
-        ('O', 'Any other Request'),
+        ('Bug Reports', 'Bug Reports'),
+        ('Account Issue', 'Account Issue'),
+        ('Feature Request', 'Feature Request'),
+        ('Any other Request', 'Any other Request'),
     )
 
     # choice for Ticket
     TICKET_STATE = (
-        ('PUB', 'Public'),
-        ('PRI', 'Private'),
+        ('Public', 'Public'),
+        ('Private', 'Private'),
     )
 
     # choice for State (only for Staff)
     COMPLETION_STATE = (
-        ('REC', 'Received'),
-        ('WOR', 'Already working'),
-        ('RES', 'Resolved'),
-        ('N_POS', 'Not Possible'),
+        ('Received', 'Received'),
+        ('Already working', 'Already working'),
+        ('Resolved', 'Resolved'),
+        ('Not Possible', 'Not Possible'),
     )
 
     # Model fields starts here
@@ -74,7 +74,7 @@ class Ticket(models.Model):
     tag = models.CharField(
         max_length=30,
         choices=TAGS,
-        default='BUG'
+        default='Bug Reports'
     )
 
     # Issue that is bothering
@@ -111,14 +111,14 @@ class Ticket(models.Model):
     ticket_state = models.CharField(
         max_length=10,
         choices=TICKET_STATE,
-        default='PUB'
+        default='Public'
     )
 
     # Completion state of Ticket
     completion_state = models.CharField(
         max_length=30,
         choices=COMPLETION_STATE,
-        default='REC'
+        default='Received'
     )
 
 
