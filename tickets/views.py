@@ -19,15 +19,22 @@ def public_tickets(request):
 
     page_title = "Public Tickets"
 
-    pub_tickets_list = Ticket.objects.filter(ticket_state='Public')
-    paginator = Paginator(pub_tickets_list, 10)
+    open_tickets_list = Ticket.objects.filter(open_state='Open', ticket_state='Public')
+    closed_tickets_list = Ticket.objects.filter(open_state='Closed', ticket_state='Public')
 
-    page = request.GET.get('page')
-    pub_tickets = paginator.get_page(page)
+    paginator_open = Paginator(open_tickets_list, 2)
+    paginator_closed = Paginator(closed_tickets_list, 2)
+
+    page_open = request.GET.get('page_open')
+    open_tickets = paginator_open.get_page(page_open)
+
+    page_closed = request.GET.get('page_closed')
+    closed_tickets = paginator_closed.get_page(page_closed)
 
     context = {
         'title': page_title,
-        'ticket_list': pub_tickets,
+        'open_ticket_list': open_tickets,
+        'closed_ticket_list': closed_tickets,
     }
     return render(request, "tickets/tickets.html", context)
 
@@ -38,18 +45,30 @@ def public_tickets(request):
 def user_tickets(request):
     page_title = "Public Tickets"
 
-    pri_tickets_list = Ticket.objects.filter(
-        ticket_state='Private',
+    open_tickets_list = Ticket.objects.filter(
+        open_state='Open',
+        ticket_state='Public',
         user=request.user
     )
-    paginator = Paginator(pri_tickets_list, 10)
+    closed_tickets_list = Ticket.objects.filter(
+        open_state='Closed',
+        ticket_state='Public',
+        user=request.user
+    )
 
-    page = request.GET.get('page')
-    pri_tickets = paginator.get_page(page)
+    paginator_open = Paginator(open_tickets_list, 2)
+    paginator_closed = Paginator(closed_tickets_list, 2)
+
+    page_open = request.GET.get('page_open')
+    open_tickets = paginator_open.get_page(page_open)
+
+    page_closed = request.GET.get('page_closed')
+    closed_tickets = paginator_closed.get_page(page_closed)
 
     context = {
         'title': page_title,
-        'ticket_list': pri_tickets,
+        'open_ticket_list': open_tickets,
+        'closed_ticket_list': closed_tickets,
     }
     return render(request, "tickets/tickets.html", context)
 
@@ -155,15 +174,22 @@ def user_admin_ticket(request):
 
     page_title = "All Tickets"
 
-    all_tickets_list = Ticket.objects.all()
-    paginator = Paginator(all_tickets_list, 10)
+    open_tickets_list = Ticket.objects.filter(open_state='Open')
+    closed_tickets_list = Ticket.objects.filter(open_state='Closed')
 
-    page = request.GET.get('page')
-    all_tickets = paginator.get_page(page)
+    paginator_open = Paginator(open_tickets_list, 2)
+    paginator_closed = Paginator(closed_tickets_list, 2)
+
+    page_open = request.GET.get('page_open')
+    open_tickets = paginator_open.get_page(page_open)
+
+    page_closed = request.GET.get('page_closed')
+    closed_tickets = paginator_closed.get_page(page_closed)
 
     context = {
         'title': page_title,
-        'ticket_list': all_tickets,
+        'open_ticket_list': open_tickets,
+        'closed_ticket_list': closed_tickets,
     }
     return render(request, "tickets/tickets.html", context)
 

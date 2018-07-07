@@ -6,39 +6,77 @@
 
 
 {% block content %}
-{% for ticket in ticket_list %}
-{% if ticket.image %}
-<img src="{{ ticket.image.url }}" />
-{% endif %}
-<p>{{ ticket.id }}</p>
-<p>{{ ticket.user }}</p>
-<p>{{ ticket.ticket_state }}</p>
-<p>{{ ticket.tag }}</p>
-<p>{{ ticket.issue }}</p>
-<p>{{ ticket.content }}</p>
-<p>{{ ticket.timestamp }}</p>
-<p>{{ ticket.updated }}</p>
-<p>{{ ticket.ticket_state }}</p>
-<p>{{ ticket.completion_state }}</p>
-<br>
-{% endfor %}
+<ul class="nav nav-tabs top-margin" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="open-tab" data-toggle="tab" href="#open" role="tab" aria-controls="open" aria-selected="true">Open</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="closed-tab" data-toggle="tab" href="#closed" role="tab" aria-controls="closed" aria-selected="false">Closed</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open-tab">
+    {% for ticket in open_ticket_list %}
+    <div class="list-group">
+      <a href="{% url "tickets:ticket_detail" id=ticket.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ ticket.issue }}</h5>
+          <small class="text-muted">{{ ticket.timestamp|timesince }} ago</small>
+        </div>
+        <small class="text-muted">#{{ticket.id}} Open up by {{ ticket.user }}</small>
+      </a>
+    </div>
+    {% endfor %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if open_ticket_list.has_previous %}
+            <a href="?page_open=1">&laquo; first</a>
+            <a href="?page_open={{ open_ticket_list.previous_page_number }}">previous</a>
+        {% endif %}
 
-<div class="pagination">
-<span class="step-links">
-    {% if ticket_list.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ ticket_list.previous_page_number }}">previous</a>
-    {% endif %}
+        <span class="current">
+            Page {{ open_ticket_list.number }} of {{ open_ticket_list.paginator.num_pages }}.
+        </span>
 
-    <span class="current">
-        Page {{ ticket_list.number }} of {{ ticket_list.paginator.num_pages }}.
+        {% if open_ticket_list.has_next %}
+            <a href="?page_open={{ open_ticket_list.next_page_number }}">next</a>
+            <a href="?page_open={{ open_ticket_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
     </span>
+    </div>
 
-    {% if ticket_list.has_next %}
-        <a href="?page={{ ticket_list.next_page_number }}">next</a>
-        <a href="?page={{ ticket_list.paginator.num_pages }}">last &raquo;</a>
-    {% endif %}
-</span>
+  </div>
+  <div class="tab-pane fade" id="closed" role="tabpanel" aria-labelledby="closed-tab">
+    {% for closed_ticket in closed_ticket_list %}
+    <div class="list-group">
+      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{ closed_ticket.issue }}</h5>
+          <small class="text-muted">{{ closed_ticket.timestamp|timesince }} ago</small>
+        </div>
+        <small class="text-muted">#{{closed_ticket.id}} Closed up by {{ closed_ticket.user }}</small>
+      </a>
+    </div>
+    {% endfor %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if closed.ticket_list.has_previous %}
+            <a href="?page_closed=1">&laquo; first</a>
+            <a href="?page_closed={{ closed_ticket_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ closed_ticket_list.number }} of {{ closed_ticket_list.paginator.num_pages }}.
+        </span>
+
+        {% if ticket_list.has_next %}
+            <a href="?page_closed={{ closed_ticket_list.next_page_number }}">next</a>
+            <a href="?page_closed={{ closed_ticket_list.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+  </div>
+
 </div>
 
 {% endblock %}
