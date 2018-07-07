@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'user_authentication',
 
     # third party
-    'semanticuiforms',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

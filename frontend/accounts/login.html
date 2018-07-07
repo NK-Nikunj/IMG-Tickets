@@ -1,13 +1,41 @@
 {% extends "accounts/base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}
 {{ page_type }}
 {% endblock %}
+{% block login_register %}
+{% if request.get_full_path == "/" %}
+ Sign in to continue
+{% else %}
+ Sign up to continue
+{% endif %}
+{% endblock %}
 
 {% block content %}
-<form method="POSt">
+<form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="{{ page_type }}">
+    <fieldset>
+        <div class="row">
+            {% for field in form.visible_fields %}
+            <div class="col-sm-12 col-md-12">
+                <div class="form-group">
+                    {{ field|add_class:'form-control' }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="form-group">
+            <input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ page_type }}">
+        </div>
+    </fieldset>
 </form>
+{% endblock %}
+
+{% block footer %}
+{% if request.get_full_path == "/" %}
+Don't have an account! <a href="{% url "user_auth:register" %}" onClick=""> Sign Up Here </a>
+{% else %}
+Already have an account! <a href="{% url "user_auth:login" %}" onClick=""> Sign In </a>
+{% endif %}
 {% endblock %}
