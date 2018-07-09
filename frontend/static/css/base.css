@@ -15,3 +15,40 @@ body {
 .top-margin {
     margin-top: 1vh;
 }
+
+.card {
+        margin: 0 auto; /* Added */
+        float: none; /* Added */
+        margin-bottom: 10px; /* Added */
+}
+
+.wmd-panel {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    width: 100% !important;
+}
+
+.wmd-input {
+    background-color: #fff !important;
+}
+
+#id_content_wmd_preview {
+    padding: 5px;
+}
+
+.wmd-preview {
+    background-color: #fff !important;
+    color: #444 !important;
+}
+
+.wmd-preview-title small {
+    font-weight: bold;
+}
+
+.make-static {
+    position: static;
+}
+
+.footer {
+    height: 40pxvh !important;
+}
