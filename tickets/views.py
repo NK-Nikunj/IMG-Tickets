@@ -47,12 +47,10 @@ def user_tickets(request):
 
     open_tickets_list = Ticket.objects.filter(
         open_state='Open',
-        ticket_state='Public',
         user=request.user
     )
     closed_tickets_list = Ticket.objects.filter(
         open_state='Closed',
-        ticket_state='Public',
         user=request.user
     )
 

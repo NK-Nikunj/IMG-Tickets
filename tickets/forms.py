@@ -19,6 +19,7 @@ class TicketForm(forms.ModelForm):
             "issue",
             "content",
             "image",
+            "ticket_state"
         ]
 
 
