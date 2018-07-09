@@ -82,8 +82,8 @@ def create_ticket(request):
 
     if form.is_valid():
         instance = form.save(commit=False)
-        instance.save()
         instance.user = request.user
+        instance.save()
         return HttpResponseRedirect(instance.get_absolute_url())
 
     context = {
