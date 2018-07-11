@@ -12,14 +12,14 @@
             <div class="card-body">
                 <div class="border-bottom padding-bottom">
                     <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                            <div class="border-right inline-block padding-right">
-                                <img src="https://ui-avatars.com/api/?name={{ instance.user }}&rounded=true&size=35" />
-                            </div>
+                        <div class="border-right inline-block padding-right">
+                            <img src="https://ui-avatars.com/api/?name={{ instance.user }}&rounded=true&size=35" />
+                        </div>
+                        <div class="col-md-10 col-sm-12">
                             <h4 class="card-title inline-block margin-left">{{ instance.issue }}</h4><h4 class="card-title text-muted inline-block">#{{ instance.id }}</h4>
                         </div>
                         {% if instance.user == request.user %}
-                        <div class="col-md-6 col-sm-12">
+                        <div class="col-md-2 col-sm-12">
                             <p class="card-text text-right"><a href="{% url 'tickets:edit_ticket' id=instance.id %}">Edit</a></p>
                         </div>
                         {% endif %}
