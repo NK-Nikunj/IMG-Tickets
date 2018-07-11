@@ -6,6 +6,8 @@
 
 
 {% block content %}
+<h3 class="top-margin text-muted"># {{ title }}</h3>
+<div class="padding-bottom"></div>
 <ul class="nav nav-tabs top-margin" id="myTab" role="tablist">
   <li class="nav-item">
     <a class="nav-link active" id="open-tab" data-toggle="tab" href="#open" role="tab" aria-controls="open" aria-selected="true">Open</a>
@@ -27,7 +29,7 @@
       </a>
     </div>
     {% endfor %}
-    <div class="pagination">
+    <div class="pagination top-margin">
     <span class="step-links">
         {% if open_ticket_list.has_previous %}
             <a href="?page_open=1">&laquo; first</a>
@@ -54,7 +56,7 @@
           <h5 class="mb-1">{{ closed_ticket.issue }}</h5>
           <small class="text-muted">{{ closed_ticket.timestamp|timesince }} ago</small>
         </div>
-        <small class="text-muted">#{{closed_ticket.id}} Closed up by {{ closed_ticket.user }}</small>
+        <small class="text-muted">#{{closed_ticket.id}} Closed.</small>
       </a>
     </div>
     {% endfor %}

@@ -10,7 +10,21 @@
             <img class="card-img-top" src="{{ instance.image.url }}" alt="Card image">
             {% endif %}
             <div class="card-body">
-                <div class="border-bottom"><h4 class="card-title inline-block">{{ instance.issue }}</h4><h4 class="card-title text-muted inline-block">#{{ instance.id }}</h4></div>
+                <div class="border-bottom padding-bottom">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                            <div class="border-right inline-block padding-right">
+                                <img src="https://ui-avatars.com/api/?name={{ instance.user }}&rounded=true&size=35" />
+                            </div>
+                            <h4 class="card-title inline-block margin-left">{{ instance.issue }}</h4><h4 class="card-title text-muted inline-block">#{{ instance.id }}</h4>
+                        </div>
+                        {% if instance.user == request.user %}
+                        <div class="col-md-6 col-sm-12">
+                            <p class="card-text text-right"><a href="{% url 'tickets:edit_ticket' id=instance.id %}">Edit</a></p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    </div>
                 <div class="top-margin"></div>
                 <div class="card-text print-markdown-content">
                     {{ instance.content }}
@@ -18,7 +32,7 @@
                 <div class="card-text text-muted">
                     <div class="row">
                         <div class="col-md-6 text-left">
-                            <small>Created {{ instance.timestamp|timesince }} ago
+                            <small>Created {{ instance.timestamp|timesince }} ago by <strong>{{ instance.user }}</strong>
                             {% if instance.timestamp.value != instance.updated.value %}
                             Updated {{ instance.updated|timesince }} ago
                             {% endif %}
@@ -89,7 +103,8 @@
     <div class="col-sm-10 col-md-6 col-sm-offset-1">
         <div class="card">
             <div class="card-body">
-                <div class="card-text">
+                <img src="https://ui-avatars.com/api/?name={{ request.user }}&rounded=true&size=30" />
+                <div class="card-text top-margin">
                     <p>{{ comment.comment }}</p>
                     <small class="text-muted">Commented by <strong>{{ comment.user }}</strong>, {{ comment.timestamp|timesince }} ago</small>
                 </div>

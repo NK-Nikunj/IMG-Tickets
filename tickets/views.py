@@ -22,8 +22,8 @@ def public_tickets(request):
     open_tickets_list = Ticket.objects.filter(open_state='Open', ticket_state='Public')
     closed_tickets_list = Ticket.objects.filter(open_state='Closed', ticket_state='Public')
 
-    paginator_open = Paginator(open_tickets_list, 2)
-    paginator_closed = Paginator(closed_tickets_list, 2)
+    paginator_open = Paginator(open_tickets_list, 10)
+    paginator_closed = Paginator(closed_tickets_list, 10)
 
     page_open = request.GET.get('page_open')
     open_tickets = paginator_open.get_page(page_open)
@@ -43,7 +43,7 @@ def public_tickets(request):
 # View for private tickets
 @login_required(login_url='/')
 def user_tickets(request):
-    page_title = "Public Tickets"
+    page_title = "Private Tickets"
 
     open_tickets_list = Ticket.objects.filter(
         open_state='Open',
@@ -54,8 +54,8 @@ def user_tickets(request):
         user=request.user
     )
 
-    paginator_open = Paginator(open_tickets_list, 2)
-    paginator_closed = Paginator(closed_tickets_list, 2)
+    paginator_open = Paginator(open_tickets_list, 10)
+    paginator_closed = Paginator(closed_tickets_list, 10)
 
     page_open = request.GET.get('page_open')
     open_tickets = paginator_open.get_page(page_open)
@@ -143,6 +143,7 @@ def edit_ticket(request, id=None):
         return HttpResponseRedirect(instance.get_absolute_url())
 
     context = {
+        'page_type': 'Update',
         'title': 'Update',
         'instance': instance,
         'form': form
@@ -175,8 +176,8 @@ def user_admin_ticket(request):
     open_tickets_list = Ticket.objects.filter(open_state='Open')
     closed_tickets_list = Ticket.objects.filter(open_state='Closed')
 
-    paginator_open = Paginator(open_tickets_list, 2)
-    paginator_closed = Paginator(closed_tickets_list, 2)
+    paginator_open = Paginator(open_tickets_list, 10)
+    paginator_closed = Paginator(closed_tickets_list, 10)
 
     page_open = request.GET.get('page_open')
     open_tickets = paginator_open.get_page(page_open)
